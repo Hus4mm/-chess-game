@@ -1,0 +1,58 @@
+class Piece:
+    def __init__(self, color):
+        self.color = color
+
+    def valid_moves(self, position, board):
+        raise NotImplementedError
+
+
+class Pawn(Piece):
+    def __str__(self):
+        return 'P' if self.color == 'white' else 'p'
+
+    def valid_moves(self, position, board):
+        moves = []
+        x, y = position
+        if self.color == 'white':
+            if board[x-1][y] is None:  # Move forward
+                moves.append((x-1, y))
+        else:
+            if board[x+1][y] is None:  # Move forward
+                moves.append((x+1, y))
+        return moves
+
+
+class Rook(Piece):
+    def __str__(self):
+        return 'R' if self.color == 'white' else 'r'
+
+    def valid_moves(self, position, board):
+        moves = []
+        # Logic for Rook movement (Horizontal/Vertical) would go here
+        return moves
+
+
+# You can add similar classes for the Knight, Bishop, Queen, and King.
+
+class ChessBoard:
+    def __init__(self):
+        self.board = self.create_board()
+
+    def create_board(self):
+        board = [[None for _ in range(8)] for _ in range(8)]
+        for i in range(8):
+            board[1][i] = Pawn('white')
+            board[6][i] = Pawn('black')
+        # Add other pieces like Rooks, Knights, etc.
+        board[0][0] = board[0][7] = Rook('white')
+        board[7][0] = board[7][7] = Rook('black')
+        return board
+
+    def display(self):
+        for row in self.board:
+            print(' '.join([str(piece) if piece else '.' for piece in row]))
+
+
+if __name__ == "__main__":
+    game = ChessBoard()
+    game.display()
